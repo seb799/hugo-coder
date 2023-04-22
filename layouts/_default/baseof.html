@@ -2,6 +2,10 @@
 <html lang="{{ .Site.Language.Lang }}">
 
 <head>
+  {{ if and .Site.Params.googleTagManager .Site.Params.googleTagManager.id }}
+  {{- partial "analytics/googletagmanager_head" . -}}
+  {{ end }}
+
   <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
   {{ partial "head.html" . }}
 </head>
@@ -14,6 +18,12 @@
 {{ end }}
 
 <body class="preload-transitions {{ $csClass }}{{ if .Site.Params.rtl }} rtl{{ end }}">
+
+  {{ if and .Site.Params.googleTagManager .Site.Params.googleTagManager.id }}
+  {{- partial "analytics/googletagmanager_body" . -}}
+  {{ end }}
+
+
   {{ partial "float" . }}
   <main class="wrapper">
     {{ partial "header.html" . }}
@@ -86,10 +96,6 @@
 
   {{ if and .Site.Params.matomo .Site.Params.matomo.serverURL }}
   {{- partial "analytics/matomo" . -}}
-  {{ end }}
-
-  {{ if and .Site.Params.googleTagManager .Site.Params.googleTagManager.id }}
-  {{- partial "analytics/googletagmanager" . -}}
   {{ end }}
 
   {{ if and .Site.Params.applicationInsights .Site.Params.applicationInsights.connectionString }}
